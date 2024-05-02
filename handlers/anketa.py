@@ -9,11 +9,11 @@ router= Router()
 
 @router.message(Command("anketa"))
 async def  anketa_handler(msg: Message, state: FSMContext):
-    await state.set_satate(Anketa.name)
+    await state.set_state(Anketa.name)
     await msg.answer('Введите ваше имя', reply_markup=kb_apteka_cancel)
 
 
-@router.callback_handler(F.data=='cancel_anketa')
+@router.callback_query(F.data=='cancel_anketa')
 async def  cancel_handler(callback_query: CallbackQuery, state: FSMContext):
     await state.clear()
     await callback_query.message.answer('Регистрация отменена')
@@ -27,23 +27,23 @@ async def  set_name_by_anketa_handler(msg: Message, state: FSMContext):
     
 @router.callback_query(F.data=='back_anketa')
 async def  back_anketa_handler(callback_query: CallbackQuery, state: FSMContext):
-    current_state-await state.get_state()
+    current_state=await state.get_state()
     if current_state==Anketa.gender:
         await state.set_state(Anketa.age)
         await callback_query.message.answer(
             'Введите ваш возраст', reply_markup=kb_apteka_cancel_and_back)
+        
     elif current_state== Anketa.age:
-        await state.set_state(Anketa.age)
+        await state.set_state(Anketa.name)
         await callback_query.message.answer(
             'Введите ваше имя', reply_markup=kb_apteka_cancel)
         
-
 @router.message(Anketa.age)
 async def set_age_by_anketa_handler(msg: Message, state: FSMContext):
     try:
-        await state.update_data(age-int (msg.text))
+        await state.update_data(age=int (msg.text))
     except ValueError:
-        await msg-answer('Вы не верно ввели возраст!')
+        await msg.answer('Вы не верно ввели возраст!')
         await msg.answer(
             'Введите ваш возраст', reply_markup=kb_apteka_cancel_and_back)
         return

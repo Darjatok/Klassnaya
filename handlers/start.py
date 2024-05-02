@@ -10,9 +10,9 @@ router = Router()
 async def start_handler(msg: Message):
     from main import bot
     await bot.set_my_commands([
-        BotCommand(command='start', description='3anyck бота'),
-        BotCommand(command='anketa', description='Cnpaska'),
-        BotCommand(command='delete', description='Oruncautbca'),
+        BotCommand(command='start', description='Запуск бота'),
+        BotCommand(command='anketa', description='Справка'),
+        BotCommand(command='delete', description='Отчислиться'),
     ])
 
     await msg.answer(text="Страница 1", reply_markup=kb_start_next)

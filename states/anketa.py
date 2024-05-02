@@ -1,4 +1,4 @@
-from aiogram.fms.state import State, StatesGroup
+from aiogram.fsm.state import State, StatesGroup
 
 
 class Anketa(StatesGroup):
